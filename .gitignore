@@ -4,3 +4,6 @@ node_modules/
 build/
 tmp/
 temp/
+
+tests/coverage
+.env
