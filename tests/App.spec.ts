@@ -1,10 +1,8 @@
 import request from 'supertest';
-
 import { Connection, getConnection, getRepository } from 'typeorm';
+
 import createConnection from '@shared/infra/typeorm/index';
-
 import Product from '@modules/products/infra/typeorm/entities/Product';
-
 import app from '@shared/infra/http/app';
 
 let connection: Connection;
@@ -37,7 +35,7 @@ describe('App', () => {
   });
 
   it('should be able to create a new customer', async () => {
-    const response = await request(app).post('/customers').send({
+    const response = await request(app).post('/v1/customers').send({
       name: 'Rocketseat',
       email: 'oi@rocketseat.com.br',
     });
@@ -51,7 +49,7 @@ describe('App', () => {
   });
 
   it('should not be able to create a customer with one e-mail thats already registered', async () => {
-    const customer = await request(app).post('/customers').send({
+    const customer = await request(app).post('/v1/customers').send({
       name: 'Rocketseat',
       email: 'oi@rocketseat.com.br',
     });
@@ -63,7 +61,7 @@ describe('App', () => {
       }),
     );
 
-    const response = await request(app).post('/customers').send({
+    const response = await request(app).post('/v1/customers').send({
       name: 'Rocketseat',
       email: 'oi@rocketseat.com.br',
     });
@@ -72,7 +70,7 @@ describe('App', () => {
   });
 
   it('should be able to create a new product', async () => {
-    const response = await request(app).post('/products').send({
+    const response = await request(app).post('/v1/products').send({
       name: 'Produto 01',
       price: 500,
       quantity: 50,
@@ -88,7 +86,7 @@ describe('App', () => {
   });
 
   it('should not be able to create a customer with one e-mail thats already registered', async () => {
-    const product = await request(app).post('/products').send({
+    const product = await request(app).post('/v1/products').send({
       name: 'Produto 01',
       price: 500,
       quantity: 50,
@@ -102,7 +100,7 @@ describe('App', () => {
       }),
     );
 
-    const response = await request(app).post('/products').send({
+    const response = await request(app).post('/v1/products').send({
       name: 'Produto 01',
       price: 500,
       quantity: 50,
@@ -112,19 +110,19 @@ describe('App', () => {
   });
 
   it('should be able to create a new order', async () => {
-    const product = await request(app).post('/products').send({
+    const product = await request(app).post('/v1/products').send({
       name: 'Produto 01',
       price: 500,
       quantity: 50,
     });
 
-    const customer = await request(app).post('/customers').send({
+    const customer = await request(app).post('/v1/customers').send({
       name: 'Rocketseat',
       email: 'oi@rocketseat.com.br',
     });
 
     const response = await request(app)
-      .post('/orders')
+      .post('/v1/orders')
       .send({
         customer_id: customer.body.id,
         products: [
@@ -154,7 +152,7 @@ describe('App', () => {
   });
 
   it('should not be able to create an order with a invalid customer', async () => {
-    const response = await request(app).post('/orders').send({
+    const response = await request(app).post('/v1/orders').send({
       customer_id: '6a1922c8-af6e-470e-9a34-621cb0643911',
     });
 
@@ -162,18 +160,40 @@ describe('App', () => {
   });
 
   it('should not be able to create an order with invalid products', async () => {
-    const customer = await request(app).post('/customers').send({
+    const customer = await request(app).post('/v1/customers').send({
       name: 'Rocketseat',
       email: 'oi@rocketseat.com.br',
     });
 
     const response = await request(app)
-      .post('/orders')
+      .post('/v1/orders')
       .send({
         customer_id: customer.body.id,
         products: [
           {
             id: '6a1922c8-af6e-470e-9a34-621cb0643911',
+            quantity: 1,
+          },
+        ],
+      });
+
+    expect(response.status).toEqual(400);
+  });
+
+  it('should not be able to create an order with products that not exists', async () => {
+    const customer = await request(app).post('/v1/customers').send({
+      name: 'Rocketseat',
+      email: 'oi@rocketseat.com.br',
+    });
+
+    const response = await request(app)
+      .post('/v1/orders')
+      .send({
+        customer_id: customer.body.id,
+        products: [
+          {
+            id: '6a1921c8-af6e-470e-9a34-621cb0643912',
+            quantity: 1,
           },
         ],
       });
@@ -182,19 +202,19 @@ describe('App', () => {
   });
 
   it('should not be able to create an order with products with insufficient quantities', async () => {
-    const customer = await request(app).post('/customers').send({
+    const customer = await request(app).post('/v1/customers').send({
       name: 'Rocketseat',
       email: 'oi@rocketseat.com.br',
     });
 
-    const product = await request(app).post('/products').send({
+    const product = await request(app).post('/v1/products').send({
       name: 'Produto 01',
       price: 500,
       quantity: 50,
     });
 
     const response = await request(app)
-      .post('/orders')
+      .post('/v1/orders')
       .send({
         customer_id: customer.body.id,
         products: [
@@ -211,19 +231,19 @@ describe('App', () => {
   it('should be able to subtract an product total quantity when it is ordered', async () => {
     const productsRepository = getRepository(Product);
 
-    const customer = await request(app).post('/customers').send({
+    const customer = await request(app).post('/v1/customers').send({
       name: 'Rocketseat',
       email: 'oi@rocketseat.com.br',
     });
 
-    const product = await request(app).post('/products').send({
+    const product = await request(app).post('/v1/products').send({
       name: 'Produto 01',
       price: 500,
       quantity: 50,
     });
 
     await request(app)
-      .post('/orders')
+      .post('/v1/orders')
       .send({
         customer_id: customer.body.id,
         products: [
@@ -243,7 +263,7 @@ describe('App', () => {
     );
 
     await request(app)
-      .post('/orders')
+      .post('/v1/orders')
       .send({
         customer_id: customer.body.id,
         products: [
@@ -264,19 +284,19 @@ describe('App', () => {
   });
 
   it('should be able to list one specific order', async () => {
-    const customer = await request(app).post('/customers').send({
+    const customer = await request(app).post('/v1/customers').send({
       name: 'Rocketseat',
       email: 'oi@rocketseat.com.br',
     });
 
-    const product = await request(app).post('/products').send({
+    const product = await request(app).post('/v1/products').send({
       name: 'Produto 01',
       price: 500,
       quantity: 50,
     });
 
     const order = await request(app)
-      .post('/orders')
+      .post('/v1/orders')
       .send({
         customer_id: customer.body.id,
         products: [
@@ -287,7 +307,7 @@ describe('App', () => {
         ],
       });
 
-    const response = await request(app).get(`/orders/${order.body.id}`);
+    const response = await request(app).get(`/v1/orders/${order.body.id}`);
 
     expect(response.body).toEqual(
       expect.objectContaining({
@@ -305,5 +325,13 @@ describe('App', () => {
         ]),
       }),
     );
+  });
+
+  it('should not be able to list an order that not exists', async () => {
+    const response = await request(app).get(
+      `/v1/orders/6a1921c8-af6e-470e-9a34-321cb0642912`,
+    );
+
+    expect(response.status).toEqual(400);
   });
 });
