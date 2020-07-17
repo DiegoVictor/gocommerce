@@ -10,6 +10,7 @@
     "test": "cross-env NODE_ENV=test jest"
   },
   "dependencies": {
+    "celebrate": "^12.1.1",
     "cors": "^2.8.5",
     "cross-env": "^7.0.2",
     "dotenv": "^8.2.0",
