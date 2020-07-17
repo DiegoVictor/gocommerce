@@ -9,6 +9,7 @@ export default async (name = 'default'): Promise<Connection> => {
       database:
         process.env.NODE_ENV === 'test'
           ? 'tests'
+          : process.env.POSTGRES_DATABASE,
     }),
   );
 };
