@@ -3,14 +3,15 @@ orbs:
   node: circleci/node@1.1.6
   codecov: codecov/codecov@1.1.0
 jobs:
-  build-and-test:
-    executor:
-      name: node/default
+  build:
     docker:
       - image: circleci/postgres:9.6.2-alpine
         environment:
           POSTGRES_USER: postgres
           POSTGRES_DB: gocommerce
+  test:
+    executor:
+      name: node/default
     steps:
       - checkout
       - node/with-cache:
@@ -23,4 +24,5 @@ jobs:
 workflows:
     build-and-test:
       jobs:
-        - build-and-test
+        - build
+        - test
