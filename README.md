@@ -86,7 +86,7 @@ GET http://localhost:3333/v1/orders/f4968587-5950-4df3-92d8-c5aee0c647c2
 
 ## Routes
 |route|HTTP Method|params|description
-|:---|:---:|:---:|:---:|:---:|:---:
+|:---|:---:|:---:|:---:
 |`/customers`|POST|Body with customer `name` and `email`.|Create a new customer.
 |`/products`|POST|Body with product `name`, `price` and `quantity`.|Create a new product.
 |`/orders`|POST|Body with order `customer_id` and `products` (with `id` and `quantity`).|Create a new order.
