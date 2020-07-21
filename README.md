@@ -61,7 +61,6 @@ In this file you may configure your Postgres database connection, the environmen
 |key|description|default
 |---|---|---
 |APP_PORT|Port number where the app will run.|`3333`
-
 |NODE_ENV|App environment. The typeORM's database choice rely on this key value, so if the environment is `test` the database used will be `tests` otherwise the `POSTGRES_DATABASE` will set the database name.|`development`
 |POSTGRES_HOST|Postgres host. For Windows users using Docker Toolbox maybe be necessary in your `.env` file set the host to `192.168.99.100` (docker machine IP) instead of localhost or `127.0.0.1`.|`127.0.0.1`
 |POSTGRES_PORT|Postgres port.|`5432`
