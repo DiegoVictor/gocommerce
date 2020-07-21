@@ -8,12 +8,12 @@
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)<br>
 [![Run in Insomnia}](https://insomnia.rest/images/run.svg)](https://insomnia.rest/run/?label=Be%20The%20Hero&uri=https%3A%2F%2Fraw.githubusercontent.com%2FDiegoVictor%2Fbethehero%2Fmaster%2Fapi%2FInsomnia_2020-05-01.json)
 
-Permit to register products and make orders with it. The app has validation and a simple versioning was made.
+Permit to register products and make orders. The app has validation and a simple versioning was made.
 
 ## Table of Contents
 * [Installing](#installing)
   * [Configuring](#configuring)
-    * [Postgres](#ostgres)
+    * [Postgres](#postgres)
       * [Migrations](#migrations)
     * [.env](#env)
 * [Usage](#usage)
@@ -86,7 +86,7 @@ GET http://localhost:3333/v1/orders/f4968587-5950-4df3-92d8-c5aee0c647c2
 
 ## Routes
 |route|HTTP Method|params|description
-|:---|:---:|:---:|:---:
+|:---|:---:|:---:|:---
 |`/customers`|POST|Body with customer `name` and `email`.|Create a new customer.
 |`/products`|POST|Body with product `name`, `price` and `quantity`.|Create a new product.
 |`/orders`|POST|Body with order `customer_id` and `products` (with `id` and `quantity`).|Create a new order.
