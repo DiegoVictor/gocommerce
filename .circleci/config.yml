@@ -5,16 +5,11 @@ orbs:
 jobs:
   build:
     docker:
-      - image: circleci/postgres:11-alpine-ram
+      - image: circleci/postgres:11-alpine
         environment:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: docker
           POSTGRES_DB: tests
-    steps:
-      - checkout
-  test:
-    executor:
-      name: node/default
     steps:
       - checkout
       - node/with-cache:
@@ -28,4 +23,3 @@ workflows:
     build-and-test:
       jobs:
         - build
-        - test
