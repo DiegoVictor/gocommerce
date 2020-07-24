@@ -10,7 +10,11 @@ jobs:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: docker
           POSTGRES_DB: tests
+    steps:
+      - checkout
   test:
+    executor:
+      name: node/default
     steps:
       - checkout
       - node/install-packages
