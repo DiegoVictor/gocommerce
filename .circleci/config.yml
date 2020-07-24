@@ -12,19 +12,11 @@ jobs:
           POSTGRES_DB: tests
     steps:
       - checkout
-  test:
-    executor:
-      name: node/default
-    steps:
-      - checkout
       - node/install-packages
       - run: npm run coverage
       - codecov/upload:
         file: tests/coverage/*.json
 workflows:
-  build-and-test:
+  build:
     jobs:
       - build
-      - test:
-        requires:
-          - build
