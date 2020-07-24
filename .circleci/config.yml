@@ -1,25 +1,26 @@
 version: 2.1
 orbs:
   node: circleci/node@3.0.1
-  codecov: codecov/codecov@1.1.0
+  codecov: codecov/codecov@1.1.1
 jobs:
   build:
     docker:
-      - image: circleci/postgres:11-alpine
+      - image: circleci/postgres:9.6.2-alpine
         environment:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: docker
           POSTGRES_DB: tests
-    executor:
-      name: node/default
+  test:
     steps:
       - checkout
-      - run: npm install
-      - run: npm test
+      - node/install-packages
       - run: npm run coverage
       - codecov/upload:
-          file: tests/coverage/*.json
+        file: tests/coverage/*.json
 workflows:
-    build-and-test:
-      jobs:
-        - build
+  build-and-test:
+    jobs:
+      - build
+      - test:
+        requires:
+          - build
