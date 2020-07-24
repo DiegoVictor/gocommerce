@@ -12,8 +12,10 @@ jobs:
           POSTGRES_DB: tests
     steps:
       - checkout
-      - node/install-packages
-      - run: npm run coverage
+      - node/with-cache:
+        steps:
+          - run: npm install
+          - run: npm run coverage
       - codecov/upload:
         file: tests/coverage/*.json
 workflows:
