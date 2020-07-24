@@ -13,9 +13,9 @@ jobs:
     steps:
       - checkout
       - node/with-cache:
-        steps:
-          - run: npm install
-          - run: npm run coverage
+          steps:
+            - run: npm install
+            - run: npm run coverage
       - codecov/upload:
         file: tests/coverage/*.json
 workflows:
