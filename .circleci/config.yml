@@ -8,10 +8,8 @@ jobs:
       name: node/default
     steps:
       - checkout
-      - node/install:
-          install-yarn: true
-      - run: yarn
-      - run: yarn test
+      - run: npm install
+      - run: npm run test
       - codecov/upload:
           file: tests/coverage/*.json
 workflows:
