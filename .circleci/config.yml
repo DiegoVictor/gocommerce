@@ -4,11 +4,12 @@ orbs:
   codecov: codecov/codecov@1.1.1
 jobs:
   build:
+    executor:
+      name: node/default
     steps:
       - checkout
       - node/install:
           install-yarn: true
-          node-version: 12.18.3
       - run: yarn converage
       - codecov/upload:
           file: tests/coverage/*.json
