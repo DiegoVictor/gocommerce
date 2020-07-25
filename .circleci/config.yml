@@ -1,20 +1,20 @@
 version: 2.1
 orbs:
-  node: circleci/node@2.0.2
   codecov: codecov/codecov@1.1.1
 jobs:
   build:
-    working_directory: ~/gocommerce
     docker:
-      - image: circleci/postgres:11.8-ram
+      - image: circleci/node:12
+      - image: circleci/postgres:11.8
         environment:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: docker
           POSTGRES_DB: tests
     steps:
+      - run: dockerize -wait tcp://localhost:5432 -timeout 1m
       - checkout
       - run: npm install
-      - run: npm run test
+      - run: npm test
       - codecov/upload:
           file: tests/coverage/*.json
 workflows:
