@@ -10,7 +10,7 @@ jobs:
       - checkout
       - node/install:
           install-yarn: true
-      - run: yarn converage
+      - run: yarn coverage
       - codecov/upload:
           file: tests/coverage/*.json
 workflows:
