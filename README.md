@@ -66,7 +66,7 @@ In this file you may configure your Postgres database connection, the environmen
 |POSTGRES_PORT|Postgres port.|`5432`
 |POSTGRES_USER|Postgres user.| `postgres`
 |POSTGRES_PASSWORD|Postgres password.| -
-|POSTGRES_DATABASE|Application's database name.| gofinances
+|POSTGRES_DATABASE|Application's database name.| gocommerce
 
 # Usage
 To start up the app run:
