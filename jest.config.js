@@ -37,6 +37,7 @@ module.exports = {
     'shared/infra/http/routes',
     'shared/infra/http/server.ts',
     'shared/infra/http/app.ts',
+    '@types',
   ],
 
   // A list of reporter names that Jest uses when writing coverage reports
