@@ -4,6 +4,7 @@ import 'express-async-errors';
 
 import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
+import helmet from 'helmet';
 import { errors } from 'celebrate';
 
 import AppError from '@shared/errors/AppError';
