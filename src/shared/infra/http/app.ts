@@ -9,7 +9,7 @@ import { errors } from 'celebrate';
 
 import AppError from '@shared/errors/AppError';
 import createConnection from '@shared/infra/typeorm';
-import routes from './routes';
+import RouteAliases from '@shared/infra/http/middlewares/RouteAliases';
 
 import '@shared/container';
 
@@ -20,6 +20,8 @@ const app = express();
 app.use(helmet());
 app.use(cors());
 app.use(express.json());
+app.use(RouteAliases);
+
 app.use('/v1', routes);
 
 app.use(errors());
