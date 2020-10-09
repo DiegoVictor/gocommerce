@@ -10,6 +10,7 @@ import { errors } from 'celebrate';
 import AppError from '@shared/errors/AppError';
 import createConnection from '@shared/infra/typeorm';
 import RouteAliases from '@shared/infra/http/middlewares/RouteAliases';
+import routes from '@shared/infra/http/routes';
 
 import '@shared/container';
 
