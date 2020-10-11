@@ -2,8 +2,22 @@ import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 
 import CreateCustomerService from '@modules/customers/services/CreateCustomerService';
+import FindCustomerService from '@modules/customers/services/FindCustomerService';
 
 export default class CustomersController {
+  public async show(request: Request, response: Response): Promise<Response> {
+    const { current_url } = request;
+    const { id } = request.params;
+
+    const findCustomer = container.resolve(FindCustomerService);
+    const customer = await findCustomer.execute({ id });
+
+    return response.json({
+      ...customer,
+      url: current_url,
+    });
+  }
+
   public async create(request: Request, response: Response): Promise<Response> {
     const { name, email } = request.body;
 
