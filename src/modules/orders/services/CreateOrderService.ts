@@ -33,7 +33,7 @@ class CreateOrderService {
     const customer = await this.customersRepository.findById(customer_id);
 
     if (!customer) {
-      throw new AppError('Customer not found');
+      throw new AppError('Customer not found', { code: 245 });
     }
 
     const orderProducts = await this.productsRepository.findAllById(products);
@@ -42,11 +42,13 @@ class CreateOrderService {
       const orderProduct = orderProducts.find(product => product.id === id);
 
       if (!orderProduct) {
-        throw new AppError('Product not found');
+        throw new AppError('Product not found', { code: 246 });
       }
 
       if (quantity > orderProduct.quantity) {
-        throw new AppError('There is not enough product quantity in stock');
+        throw new AppError('There is not enough product quantity in stock', {
+          code: 240,
+        });
       }
 
       return {
