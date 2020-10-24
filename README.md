@@ -1,22 +1,28 @@
 # GoCommerce
 ![CircleCI](https://img.shields.io/circleci/build/github/DiegoVictor/gocommerce?style=flat-square&logo=circleci)
+[![typescript](https://img.shields.io/badge/typescript-3.9.7-3178c6?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
+[![redis](https://img.shields.io/badge/redis-3.0.2-d92b21?style=flat-square&logo=redis&logoColor=white)](https://redis.io/)
 [![eslint](https://img.shields.io/badge/eslint-6.8.0-4b32c3?style=flat-square&logo=eslint)](https://eslint.org/)
 [![airbnb-style](https://flat.badgen.net/badge/style-guide/airbnb/ff5a5f?icon=airbnb)](https://github.com/airbnb/javascript)
 [![jest](https://img.shields.io/badge/jest-25.2.7-brightgreen?style=flat-square&logo=jest)](https://jestjs.io/)
 [![coverage](https://img.shields.io/codecov/c/gh/DiegoVictor/gocommerce?logo=codecov&style=flat-square)](https://codecov.io/gh/DiegoVictor/gocommerce)
 [![MIT License](https://img.shields.io/badge/license-MIT-green?style=flat-square)](https://github.com/DiegoVictor/gocommerce/blob/master/LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)<br>
-[![Run in Insomnia}](https://insomnia.rest/images/run.svg)](https://insomnia.rest/run/?label=Be%20The%20Hero&uri=https%3A%2F%2Fraw.githubusercontent.com%2FDiegoVictor%2Fbethehero%2Fmaster%2Fapi%2FInsomnia_2020-05-01.json)
+[![Run in Insomnia}](https://insomnia.rest/images/run.svg)](https://insomnia.rest/run/?label=Be%20The%20Hero&uri=https%3A%2F%2Fraw.githubusercontent.com%2FDiegoVictor%2Fbethehero%2Fmaster%2Fapi%2FInsomnia_2020-07-07.json)
 
-Permit to register products and make orders. The app has validation and a simple versioning was made.
+Permit to register products and make orders. The app has rate limit, friendly errors, validation and also a simple versioning was made.
 
 ## Table of Contents
 * [Installing](#installing)
   * [Configuring](#configuring)
+    * [Redis](#redis)
     * [Postgres](#postgres)
       * [Migrations](#migrations)
     * [.env](#env)
+    * [Rate Limit (Optional)](#rate-limit-optional)
 * [Usage](#usage)
+  * [Error Handling](#error-handling)
+    * [Errors Reference](#errors-reference)
   * [Versioning](#versioning)
   * [Routes](#routes)
     * [Requests](#requests)
@@ -35,10 +41,16 @@ $ npm install
 > Was installed and configured the [`eslint`](https://eslint.org/) and [`prettier`](https://prettier.io/) to keep the code clean and patterned.
 
 ## Configuring
-The application use one database: [Postgres](https://www.postgresql.org/).
+The application use two databases: [Redis](https://redis.io/) and [Postgres](https://www.postgresql.org/). For the fastest setup is recommended to use [docker](https://www.docker.com), see below how to setup ever database.
+
+### Redis
+Responsible to store data utilized by the rate limit middleware and brute force prevention. You can create a redis container like so:
+```
+$ docker run --name gocommerce-redis -d -p 6379:6379 redis:alpine
+```
 
 ### Postgres
-Responsible to store all application data. For the fastest setup is recommended to use [docker](https://www.docker.com), you can create a postgres container like so:
+Responsible to store all application data. To create a postgres container:
 ```
 $ docker run --name gocommerce-postgres -e POSTGRES_PASSWORD=docker -p 5432:5432 -d postgres
 ```
@@ -56,7 +68,7 @@ $ yarn typeorm migration:run
 > See more information on [TypeORM Migrations](https://typeorm.io/#/migrations).
 
 ### .env
-In this file you may configure your Postgres database connection, the environment and app's port. Rename the `.env.example` in the root directory to `.env` then just update with your settings.
+In this file you may configure your Redis database connection, JWT settings, the environment, app's port and a url to documentation (this will be returned with error responses, see [error section](#error-handling)). Rename the `.env.example` in the root directory to `.env` then just update with your settings.
 
 |key|description|default
 |---|---|---
@@ -67,6 +79,22 @@ In this file you may configure your Postgres database connection, the environmen
 |POSTGRES_USER|Postgres user.| `postgres`
 |POSTGRES_PASSWORD|Postgres password.| -
 |POSTGRES_DATABASE|Application's database name.| gocommerce
+|REDIS_HOST|Redis host.|`127.0.0.1`
+|REDIS_PORT|Redis port.|`6379`
+|DOCS_URL|An url to docs where users can find more information about the app's internal code errors.|`https://github.com/DiegoVictor/gocommerce#errors-reference`
+
+### Rate Limit (Optional)
+The project comes pre-configured, but you can adjust it as your needs.
+
+* `src/config/rate_limit.js`
+
+|key|description|default
+|---|---|---
+|duration|Number of seconds before consumed points are reset.|`300`
+|points|Maximum number of points can be consumed over duration.|`10`
+
+> The lib [`rate-limiter-flexible`](https://github.com/animir/node-rate-limiter-flexible) was used to rate the api's limits, for more configuration information go to [Options](https://github.com/animir/node-rate-limiter-flexible/wiki/Options#options) page.
+
 
 # Usage
 To start up the app run:
@@ -78,6 +106,33 @@ Or:
 npm run dev:server
 ```
 
+## Error Handling
+Instead of only throw a simple message and HTTP Status Code this API return friendly errors:
+```json
+{
+  "status": "error",
+  "message": "Too Many Requests",
+  "code": 429,
+  "docs": "https://github.com/DiegoVictor/gocommerce#errors-reference"
+}
+```
+> As you can see a url to error docs are returned too. To configure this url update the `DOCS_URL` key from `.env` file.
+> In the next sub section ([Errors Reference](#errors-reference)) you can see the errors `code` description.
+
+### Errors Reference
+|code|message|description
+|---|---|---
+|140|The email provided already in use|Already exists a customer with the same email.
+|144|Customer not found|The `id` sent not references an existing customer in the database.
+|240|There is not enough product quantity in stock|The requested quantity is not available in stock.
+|244|Order not found|The `id` sent not references an existing order in the database.
+|245|Customer not found|You are trying to create a new order with a customer that not exists.
+|246|Product not found|This happens when you try to create a new order with a non existing product.
+|247|Order not found|You are trying to retrieve products from a order that not exists.
+|344|Product not found|The `id` sent not references an existing order in the database.
+|349|A product with the same name already exists|Products must have unique names, but you provided one already in use.
+|429|Too Many Requests|You reached at the requests limit.
+
 ## Versioning
 A simple versioning was made. Just remember to set after the `host` the `/v1/` string to your requests.
 ```
@@ -88,9 +143,12 @@ GET http://localhost:3333/v1/orders/f4968587-5950-4df3-92d8-c5aee0c647c2
 |route|HTTP Method|params|description
 |:---|:---:|:---:|:---
 |`/customers`|POST|Body with customer `name` and `email`.|Create a new customer.
+|`/customers/:id`|GET|`:id` of the customer.|Return one customer.
 |`/products`|POST|Body with product `name`, `price` and `quantity`.|Create a new product.
+|`/products/:id`|GET|`:id` of the product.|Return one product.
 |`/orders`|POST|Body with order `customer_id` and `products` (with `id` and `quantity`).|Create a new order.
 |`/orders/:id`|GET|`:id` of the order|Show one order.
+|`/orders/:id/products`|GET|`:id` of the order|Return the products from an order.
 
 ### Requests
 * `POST /customers`
