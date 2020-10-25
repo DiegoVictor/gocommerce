@@ -18,11 +18,6 @@ interface IProduct {
   quantity: number;
 }
 
-jest.mock('../../src/shared/config/security', () => ({
-  duration: 1,
-  points: 20,
-}));
-
 describe('Order', () => {
   let connection: Connection;
 

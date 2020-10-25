@@ -1,7 +1,6 @@
 # GoCommerce
 ![CircleCI](https://img.shields.io/circleci/build/github/DiegoVictor/gocommerce?style=flat-square&logo=circleci)
 [![typescript](https://img.shields.io/badge/typescript-3.9.7-3178c6?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
-[![redis](https://img.shields.io/badge/redis-3.0.2-d92b21?style=flat-square&logo=redis&logoColor=white)](https://redis.io/)
 [![eslint](https://img.shields.io/badge/eslint-6.8.0-4b32c3?style=flat-square&logo=eslint)](https://eslint.org/)
 [![airbnb-style](https://flat.badgen.net/badge/style-guide/airbnb/ff5a5f?icon=airbnb)](https://github.com/airbnb/javascript)
 [![jest](https://img.shields.io/badge/jest-25.2.7-brightgreen?style=flat-square&logo=jest)](https://jestjs.io/)
@@ -15,11 +14,9 @@ Permit to register products and make orders. The app has rate limit, friendly er
 ## Table of Contents
 * [Installing](#installing)
   * [Configuring](#configuring)
-    * [Redis](#redis)
     * [Postgres](#postgres)
       * [Migrations](#migrations)
     * [.env](#env)
-    * [Rate Limit (Optional)](#rate-limit-optional)
 * [Usage](#usage)
   * [Error Handling](#error-handling)
     * [Errors Reference](#errors-reference)
@@ -41,13 +38,7 @@ $ npm install
 > Was installed and configured the [`eslint`](https://eslint.org/) and [`prettier`](https://prettier.io/) to keep the code clean and patterned.
 
 ## Configuring
-The application use two databases: [Redis](https://redis.io/) and [Postgres](https://www.postgresql.org/). For the fastest setup is recommended to use [docker](https://www.docker.com), see below how to setup ever database.
-
-### Redis
-Responsible to store data utilized by the rate limit middleware and brute force prevention. You can create a redis container like so:
-```
-$ docker run --name gocommerce-redis -d -p 6379:6379 redis:alpine
-```
+The application use just one database: [Postgres](https://www.postgresql.org/). For the fastest setup is recommended to use [docker](https://www.docker.com), see below how to setup ever database.
 
 ### Postgres
 Responsible to store all application data. To create a postgres container:
@@ -68,7 +59,7 @@ $ yarn typeorm migration:run
 > See more information on [TypeORM Migrations](https://typeorm.io/#/migrations).
 
 ### .env
-In this file you may configure your Redis database connection, JWT settings, the environment, app's port and a url to documentation (this will be returned with error responses, see [error section](#error-handling)). Rename the `.env.example` in the root directory to `.env` then just update with your settings.
+In this file you may configure your Postgres database connection, JWT settings, the environment, app's port and a url to documentation (this will be returned with error responses, see [error section](#error-handling)). Rename the `.env.example` in the root directory to `.env` then just update with your settings.
 
 |key|description|default
 |---|---|---
@@ -79,22 +70,7 @@ In this file you may configure your Redis database connection, JWT settings, the
 |POSTGRES_USER|Postgres user.| `postgres`
 |POSTGRES_PASSWORD|Postgres password.| -
 |POSTGRES_DATABASE|Application's database name.| gocommerce
-|REDIS_HOST|Redis host.|`127.0.0.1`
-|REDIS_PORT|Redis port.|`6379`
 |DOCS_URL|An url to docs where users can find more information about the app's internal code errors.|`https://github.com/DiegoVictor/gocommerce#errors-reference`
-
-### Rate Limit (Optional)
-The project comes pre-configured, but you can adjust it as your needs.
-
-* `src/config/rate_limit.js`
-
-|key|description|default
-|---|---|---
-|duration|Number of seconds before consumed points are reset.|`300`
-|points|Maximum number of points can be consumed over duration.|`10`
-
-> The lib [`rate-limiter-flexible`](https://github.com/animir/node-rate-limiter-flexible) was used to rate the api's limits, for more configuration information go to [Options](https://github.com/animir/node-rate-limiter-flexible/wiki/Options#options) page.
-
 
 # Usage
 To start up the app run:
