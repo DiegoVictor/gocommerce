@@ -16,7 +16,7 @@ factory.define(
   {
     name: faker.commerce.productName,
     price: () => parseFloat(faker.commerce.price(1, 50)),
-    quantity: () => faker.random.number({ min: 1, max: 100 }),
+    quantity: () => faker.datatype.number({ min: 1, max: 100 }),
   },
 );
 
