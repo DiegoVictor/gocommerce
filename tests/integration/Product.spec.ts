@@ -61,7 +61,7 @@ describe('Product', () => {
   });
 
   it('should not be able to get one product', async () => {
-    const uuid = faker.random.uuid();
+    const uuid = faker.datatype.uuid();
 
     const response = await request(app)
       .get(`/v1/products/${uuid}`)

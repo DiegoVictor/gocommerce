@@ -55,9 +55,11 @@ describe('OrderProduct', () => {
       .post('/v1/customers')
       .send({ name: customerName, email });
 
-    const { name: productName, price, quantity } = await factory.attrs<
-      IProduct
-    >('Product', { quantity: 2 });
+    const {
+      name: productName,
+      price,
+      quantity,
+    } = await factory.attrs<IProduct>('Product', { quantity: 2 });
     const product = await request(app)
       .post('/v1/products')
       .send({ name: productName, price, quantity });
@@ -90,7 +92,7 @@ describe('OrderProduct', () => {
   });
 
   it('should not be able to get products from an order that not exists', async () => {
-    const uuid = faker.random.uuid();
+    const uuid = faker.datatype.uuid();
     const response = await request(app)
       .get(`/v1/orders/${uuid}/products`)
       .expect(400)

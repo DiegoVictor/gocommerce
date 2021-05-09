@@ -58,7 +58,7 @@ describe('Customer', () => {
   });
 
   it('should not be able to get one customer', async () => {
-    const uuid = faker.random.uuid();
+    const uuid = faker.datatype.uuid();
 
     const response = await request(app)
       .get(`/v1/customers/${uuid}`)

@@ -48,9 +48,11 @@ describe('Order', () => {
   });
 
   it('should be able to create a new order', async () => {
-    const { name: productName, price, quantity } = await factory.attrs<
-      IProduct
-    >('Product', { quantity: 5 });
+    const {
+      name: productName,
+      price,
+      quantity,
+    } = await factory.attrs<IProduct>('Product', { quantity: 5 });
     const product = await request(app)
       .post('/v1/products')
       .send({ name: productName, price, quantity });
@@ -94,7 +96,7 @@ describe('Order', () => {
   });
 
   it('should not be able to create an order with a invalid customer', async () => {
-    const uuid = faker.random.uuid();
+    const uuid = faker.datatype.uuid();
     const response = await request(app).post('/v1/orders').expect(400).send({
       customer_id: uuid,
     });
@@ -115,7 +117,7 @@ describe('Order', () => {
       name: customerName,
       email,
     });
-    const uuid = faker.random.uuid();
+    const uuid = faker.datatype.uuid();
 
     const response = await request(app)
       .post('/v1/orders')
@@ -147,9 +149,11 @@ describe('Order', () => {
       email,
     });
 
-    const { name: productName, price, quantity } = await factory.attrs<
-      IProduct
-    >('Product', { quantity: 5 });
+    const {
+      name: productName,
+      price,
+      quantity,
+    } = await factory.attrs<IProduct>('Product', { quantity: 5 });
     const product = await request(app).post('/v1/products').send({
       name: productName,
       price,
@@ -188,9 +192,11 @@ describe('Order', () => {
       email,
     });
 
-    const { name: productName, price, quantity } = await factory.attrs<
-      IProduct
-    >('Product', { quantity: 15 });
+    const {
+      name: productName,
+      price,
+      quantity,
+    } = await factory.attrs<IProduct>('Product', { quantity: 15 });
     const product = await request(app).post('/v1/products').send({
       name: productName,
       price,
@@ -247,9 +253,11 @@ describe('Order', () => {
       email,
     });
 
-    const { name: productName, price, quantity } = await factory.attrs<
-      IProduct
-    >('Product', { quantity: 10 });
+    const {
+      name: productName,
+      price,
+      quantity,
+    } = await factory.attrs<IProduct>('Product', { quantity: 10 });
     const product = await request(app).post('/v1/products').send({
       name: productName,
       price,
@@ -289,7 +297,7 @@ describe('Order', () => {
   });
 
   it('should not be able to list an order that not exists', async () => {
-    const uuid = faker.random.uuid();
+    const uuid = faker.datatype.uuid();
     const response = await request(app).get(`/v1/orders/${uuid}`).expect(404);
 
     expect(response.body).toStrictEqual({
