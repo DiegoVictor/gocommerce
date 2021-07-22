@@ -1,0 +1,31 @@
+version: "3.9"
+services:
+  pg:
+    image: postgres
+    container_name: pg
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: docker
+      POSTGRES_DB: gocommerce
+    ports:
+      - 5432:5432
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - app_network
+  app:
+    build: .
+    depends_on:
+      - pg
+    ports:
+      - 3333:3333
+    volumes:
+      - .:/usr/src/app
+    networks:
+      - app_network
+volumes:
+  pgdata:
+    driver: local
+networks:
+  app_network:
+    driver: bridge
