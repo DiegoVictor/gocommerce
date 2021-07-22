@@ -7,7 +7,7 @@
 [![coverage](https://img.shields.io/codecov/c/gh/DiegoVictor/gocommerce?logo=codecov&style=flat-square)](https://codecov.io/gh/DiegoVictor/gocommerce)
 [![MIT License](https://img.shields.io/badge/license-MIT-green?style=flat-square)](https://github.com/DiegoVictor/gocommerce/blob/master/LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)<br>
-[![Run in Insomnia}](https://insomnia.rest/images/run.svg)](https://insomnia.rest/run/?label=GoCommerce&uri=https%3A%2F%2Fraw.githubusercontent.com%2FDiegoVictor%2Fgocommerce%2Fmaster%2FInsomnia_2020-07-07.json)
+[![Run in Insomnia}](https://insomnia.rest/images/run.svg)](https://insomnia.rest/run/?label=GoCommerce&uri=https%3A%2F%2Fraw.githubusercontent.com%2FDiegoVictor%2Fgocommerce%2Fmaster%2FInsomnia_2021-07-21.json)
 
 Permit to register products and make orders. The app has rate limit, friendly errors, validation and also a simple versioning was made.
 
