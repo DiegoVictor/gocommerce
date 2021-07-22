@@ -5,7 +5,7 @@ import FindOrderProductsService from '@modules/orders/services/FindOrderProducts
 
 export default class OrderProductsController {
   public async index(request: Request, response: Response): Promise<Response> {
-    const { host_url } = request;
+    const { hostUrl } = request;
     const { id } = request.params;
 
     const findOrderProducts = container.resolve(FindOrderProductsService);
@@ -15,8 +15,8 @@ export default class OrderProductsController {
       products.map(product => ({
         ...product,
         name: product.product.name,
-        order_url: `${host_url}/v1/orders/${id}`,
-        url: `${host_url}/v1/products/${product.product.id}`,
+        order_url: `${hostUrl}/v1/orders/${id}`,
+        url: `${hostUrl}/v1/products/${product.product.id}`,
       })),
     );
   }

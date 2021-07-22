@@ -6,7 +6,7 @@ import FindProductService from '@modules/products/services/FindProductService';
 
 export default class ProductsController {
   public async show(request: Request, response: Response): Promise<Response> {
-    const { current_url } = request;
+    const { currentUrl } = request;
     const { id } = request.params;
 
     const findProduct = container.resolve(FindProductService);
@@ -14,7 +14,7 @@ export default class ProductsController {
 
     return response.json({
       ...product,
-      url: current_url,
+      url: currentUrl,
     });
   }
 

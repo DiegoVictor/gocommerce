@@ -6,7 +6,7 @@ import FindCustomerService from '@modules/customers/services/FindCustomerService
 
 export default class CustomersController {
   public async show(request: Request, response: Response): Promise<Response> {
-    const { current_url } = request;
+    const { currentUrl } = request;
     const { id } = request.params;
 
     const findCustomer = container.resolve(FindCustomerService);
@@ -14,7 +14,7 @@ export default class CustomersController {
 
     return response.json({
       ...customer,
-      url: current_url,
+      url: currentUrl,
     });
   }
 
