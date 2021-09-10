@@ -13,4 +13,45 @@
       "url":"http://localhost:3333/v1"
     }
   ],
+  "paths": {
+  },
+  "components": {
+    "schemas": {
+      "Customer": {
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "created_at": {
+            "type": "string"
+          },
+          "updated_at": {
+            "type": "string"
+          }
+        }
+      },
+      "Error": {
+        "properties": {
+          "status": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "code": {
+            "type": "integer"
+          },
+          "docs": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
 }
