@@ -80,6 +80,70 @@
         }
       }
     },
+    "/customers/{id}": {
+      "get": {
+        "tags": ["Customers"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "51450dc5-7647-4fa7-877b-fe98e78c2a6c"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Return one customer",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Customer"
+                    },
+                    {
+                      "title": "Customer",
+                      "properties": {
+                        "url": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "id": "51450dc5-7647-4fa7-877b-fe98e78c2a6c",
+                  "name": "John Doe",
+                  "email": "johndoe@example.com",
+                  "created_at": "2021-09-01T03:10:41.705Z",
+                  "updated_at": "2021-09-01T03:10:41.705Z",
+                  "url": "http://localhost:3333/v1/customers/51450dc5-7647-4fa7-877b-fe98e78c2a6c"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Customer not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "status": "error",
+                  "message": "Customer not found",
+                  "code": 144,
+                  "docs": "https://github.com/DiegoVictor/gocommerce#errors-reference"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
   },
   "components": {
     "schemas": {
