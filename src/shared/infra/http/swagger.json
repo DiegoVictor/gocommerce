@@ -216,6 +216,71 @@
         }
       }
     },
+    "/products/{id}": {
+      "get": {
+        "tags": ["Products"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "dee8bd5a-cfc3-40e2-a5f2-bcac1533f5ed"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Return one customer",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Product"
+                    },
+                    {
+                      "title": "Product",
+                      "properties": {
+                        "url": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "id": "dee8bd5a-cfc3-40e2-a5f2-bcac1533f5ed",
+                  "name": "Hocks Ibiza",
+                  "price": "280.90",
+                  "quantity": 100,
+                  "created_at": "2021-09-01T03:19:14.364Z",
+                  "updated_at": "2021-09-01T03:19:14.364Z",
+                  "url": "http://localhost:3333/v1/products/dee8bd5a-cfc3-40e2-a5f2-bcac1533f5ed"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Customer not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "status": "error",
+                  "message": "Product not found",
+                  "code": 344,
+                  "docs": "https://github.com/DiegoVictor/gocommerce#errors-reference"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
   },
   "components": {
     "schemas": {
