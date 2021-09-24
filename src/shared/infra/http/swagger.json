@@ -144,6 +144,78 @@
         }
       }
     },
+    "/products": {
+      "post": {
+        "tags": ["Products"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "name",
+                  "price",
+                  "quantity"
+                ],
+                "title": "Customer",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "price": {
+                    "type": "number"
+                  },
+                  "quantity": {
+                    "type": "integer"
+                  }
+                }
+              },
+              "example": {
+                "name": "Hocks Ibiza",
+                "price": 280.90,
+                "quantity": 100
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Create a new product",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Product"
+                },
+                "example": {
+                  "id": "dee8bd5a-cfc3-40e2-a5f2-bcac1533f5ed",
+                  "name": "Hocks Ibiza",
+                  "price": 280.9,
+                  "quantity": 100,
+                  "created_at": "2021-09-01T03:19:14.364Z",
+                  "updated_at": "2021-09-01T03:19:14.364Z"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "A product with the same name already exists",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "status": "error",
+                  "message": "A product with the same name already exists",
+                  "code": 349,
+                  "docs": "https://github.com/DiegoVictor/gocommerce#errors-reference"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
   },
   "components": {
     "schemas": {
