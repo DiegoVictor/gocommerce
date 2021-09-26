@@ -567,6 +567,31 @@
           }
         }
       },
+      "OrderProduct": {
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "order_id": {
+            "type": "string"
+          },
+          "product_id": {
+            "type": "string"
+          },
+          "price": {
+            "type": "string"
+          },
+          "quantity": {
+            "type": "integer"
+          },
+          "created_at": {
+            "type": "string"
+          },
+          "updated_at": {
+            "type": "string"
+          }
+        }
+      },
       "Order": {
         "properties": {
           "id": {
