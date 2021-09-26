@@ -6,7 +6,9 @@ import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import { errors } from 'celebrate';
+import swagger from 'swagger-ui-express';
 
+import swaggerDocument from '@shared/infra/http/swagger.json';
 import AppError from '@shared/errors/AppError';
 import createConnection from '@shared/infra/typeorm';
 import routeAliases from '@shared/infra/http/middlewares/routeAliases';
@@ -23,6 +25,7 @@ app.use(cors());
 app.use(express.json());
 app.use(routeAliases);
 
+app.use('/docs', swagger.serve, swagger.setup(swaggerDocument));
 app.use('/v1', routes);
 
 app.use(errors());
