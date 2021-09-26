@@ -523,6 +523,93 @@
         }
       }
     },
+    "/orders/{id}/products": {
+      "get": {
+        "tags": ["Orders"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "39417e90-73f4-49f4-b30e-324784c9cc60"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Return the products from an order",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/OrderProduct"
+                    },
+                    {
+                      "title": "OrderProduct",
+                      "properties": {
+                        "product": {
+                          "$ref": "#/components/schemas/Product"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "order_url": {
+                          "type": "string"
+                        },
+                        "url": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "example": [
+                  {
+                    "id": "b684c556-cb4c-4c07-90b1-affa4b10acb3",
+                    "product_id": "b5759337-767e-401e-bf18-2062186a28e8",
+                    "order_id": "9bb67de8-fb7b-40c0-a019-2b8fe73666d4",
+                    "price": "280.90",
+                    "quantity": 5,
+                    "product": {
+                      "id": "b5759337-767e-401e-bf18-2062186a28e8",
+                      "name": "Hocks Ibiza",
+                      "price": "280.90",
+                      "quantity": 90,
+                      "created_at": "2021-09-01T04:57:19.787Z",
+                      "updated_at": "2021-09-01T04:58:56.300Z"
+                    },
+                    "name": "Hocks Ibiza",
+                    "created_at": "2021-09-01T04:58:56.289Z",
+                    "updated_at": "2021-09-01T04:58:56.289Z",
+                    "order_url": "http://localhost:3333/v1/orders/9bb67de8-fb7b-40c0-a019-2b8fe73666d4",
+                    "url": "http://localhost:3333/v1/products/b5759337-767e-401e-bf18-2062186a28e8"
+                  }
+                ]
+              }
+            }
+          },
+          "404": {
+            "description": "Order not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "status": "error",
+                  "message": "Order not found",
+                  "code": 247,
+                  "docs": "https://github.com/DiegoVictor/gocommerce#errors-reference"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
   },
   "components": {
     "schemas": {
