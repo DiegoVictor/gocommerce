@@ -5,10 +5,11 @@ orbs:
 executors:
   test-executor:
     docker:
+      - image: cimg/node:lts
       - image: cimg/postgres:14.0
         environment:
-          POSTGRES_USER: $DOCKERHUB_USER
-          POSTGRES_PASSWORD: $DOCKERHUB_PASSWORD
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: docker
           POSTGRES_DB: tests
 jobs:
   test:
