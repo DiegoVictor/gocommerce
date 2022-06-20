@@ -5,7 +5,7 @@ orbs:
 executors:
   nodejs:
     docker:
-      - image: circleci/postgres:14
+      - image: circleci/postgres:14.0
         environment:
           POSTGRES_USER: $DOCKERHUB_USER
           POSTGRES_PASSWORD: $DOCKERHUB_PASSWORD
