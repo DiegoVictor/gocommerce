@@ -3,7 +3,7 @@ orbs:
   node: circleci/node@5.0.2
   codecov: codecov/codecov@1.1.1
 executors:
-  nodejs:
+  test-executor:
     docker:
       - image: cimg/postgres:14.0
         environment:
@@ -12,9 +12,8 @@ executors:
           POSTGRES_DB: tests
 jobs:
   test:
-    executor: nodejs
+    executor: test-executor
     steps:
-      - run: dockerize -wait tcp://localhost:5432 -timeout 1m
       - checkout
       - node/install-packages:
           cache-path: ~/named-web/node_modules
