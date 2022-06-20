@@ -1,23 +1,27 @@
 version: 2.1
 orbs:
   codecov: codecov/codecov@1.1.1
-jobs:
-  build:
+executors:
+  nodejs:
     docker:
-      - image: circleci/node:16
-      - image: circleci/postgres:11.8
+      - image: node:16
+      - image: circleci/postgres:14
         environment:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: docker
+          POSTGRES_USER: $DOCKERHUB_USER
+          POSTGRES_PASSWORD: $DOCKERHUB_PASSWORD
           POSTGRES_DB: tests
+jobs:
+  test:
+    executor: nodejs
     steps:
       - run: dockerize -wait tcp://localhost:5432 -timeout 1m
       - checkout
-      - run: npm ci
+      - node/install-packages:
+          cache-path: ~/named-web/node_modules
       - run: npm run test
       - codecov/upload:
           file: tests/coverage/*.json
 workflows:
-  build:
+  test:
     jobs:
-      - build
+      - test
