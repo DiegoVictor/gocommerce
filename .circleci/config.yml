@@ -17,7 +17,7 @@ jobs:
     steps:
       - checkout
       - node/install-packages:
-          cache-path: ~/named-web/node_modules
+          cache-path: ~/gocommerce/node_modules
       - run: npm run test
       - codecov/upload:
           file: tests/coverage/*.json
