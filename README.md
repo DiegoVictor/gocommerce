@@ -1,5 +1,5 @@
 # GoCommerce
-![CircleCI](https://img.shields.io/circleci/build/github/DiegoVictor/gocommerce?style=flat-square&logo=circleci)
+[![CircleCI](https://img.shields.io/circleci/build/github/DiegoVictor/gocommerce?style=flat-square&logo=circleci)](https://app.circleci.com/pipelines/github/DiegoVictor/gocommerce?branch=main)
 [![postgres](https://img.shields.io/badge/postgres-8.7.1-326690?style=flat-square&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
 [![typescript](https://img.shields.io/badge/typescript-4.4.3-3178c6?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
 [![eslint](https://img.shields.io/badge/eslint-7.32.0-4b32c3?style=flat-square&logo=eslint)](https://eslint.org/)
