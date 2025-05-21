@@ -1,6 +1,5 @@
 version: 2.1
 orbs:
-  node: circleci/node@7.1.0
   codecov: codecov/codecov@4.2.0
 executors:
   test-executor:
@@ -16,8 +15,7 @@ jobs:
     executor: test-executor
     steps:
       - checkout
-      - node/install-packages:
-          cache-path: ~/project/node_modules
+      - run: npm ci
       - run: npm run test
       - codecov/upload
 workflows:
