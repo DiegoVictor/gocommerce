@@ -1,7 +1,7 @@
 version: 2.1
 orbs:
   node: circleci/node@7.1.0
-  codecov: codecov/codecov@1.1.1
+  codecov: codecov/codecov@4.2.0
 executors:
   test-executor:
     docker:
@@ -19,8 +19,7 @@ jobs:
       - node/install-packages:
           cache-path: ~/gocommerce/node_modules
       - run: npm run test
-      - codecov/upload:
-          file: tests/coverage/*.json
+      - codecov/upload
 workflows:
   test:
     jobs:
