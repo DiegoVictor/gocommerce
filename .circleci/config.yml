@@ -17,10 +17,10 @@ jobs:
     steps:
       - checkout
       - node/install-packages:
-          cache-path: ~/gocommerce/node_modules
+          cache-path: ~/project/node_modules
       - run: npm run test
       - codecov/upload
 workflows:
-  test:
+  main:
     jobs:
       - test
