@@ -15,9 +15,9 @@ Permit to register products and make orders. The app has rate limit, friendly er
 ## Table of Contents
 * [Installing](#installing)
   * [Configuring](#configuring)
+    * [.env](#env)
     * [Postgres](#postgres)
       * [Migrations](#migrations)
-    * [.env](#env)
 * [Usage](#usage)
   * [Error Handling](#error-handling)
     * [Errors Reference](#errors-reference)
@@ -44,6 +44,20 @@ The application use just one database: [Postgres](https://www.postgresql.org/). 
 $ docker-compose up -d
 ```
 
+### .env
+In this file you may configure your Postgres database connection, JWT settings, the environment, app's port and a url to documentation (this will be returned with error responses, see [error section](#error-handling)). Rename the `.env.example` in the root directory to `.env` then just update with your settings.
+
+|key|description|default
+|---|---|---
+|APP_PORT|Port number where the app will run.|`3333`
+|NODE_ENV|App environment. The typeORM's database choice rely on this key value, so if the environment is `test` the database used will be `tests` otherwise the `POSTGRES_DATABASE` will set the database name.|`development`
+|POSTGRES_HOST|Postgres host.|`pg`
+|POSTGRES_PORT|Postgres port.|`5432`
+|POSTGRES_USER|Postgres user.| `postgres`
+|POSTGRES_PASSWORD|Postgres password.| -
+|POSTGRES_DATABASE|Application's database name.| gocommerce
+|DOCS_URL|An url to docs where users can find more information about the app's internal code errors.|`https://github.com/DiegoVictor/gocommerce#errors-reference`
+
 ### Postgres
 Responsible to store all application data. If for any reason you would like to create a Postgres container instead of use `docker-compose`, you can do it by running the following command:
 ```
@@ -61,20 +75,6 @@ Or:
 $ yarn typeorm migration:run
 ```
 > See more information on [TypeORM Migrations](https://typeorm.io/#/migrations).
-
-### .env
-In this file you may configure your Postgres database connection, JWT settings, the environment, app's port and a url to documentation (this will be returned with error responses, see [error section](#error-handling)). Rename the `.env.example` in the root directory to `.env` then just update with your settings.
-
-|key|description|default
-|---|---|---
-|APP_PORT|Port number where the app will run.|`3333`
-|NODE_ENV|App environment. The typeORM's database choice rely on this key value, so if the environment is `test` the database used will be `tests` otherwise the `POSTGRES_DATABASE` will set the database name.|`development`
-|POSTGRES_HOST|Postgres host.|`pg`
-|POSTGRES_PORT|Postgres port.|`5432`
-|POSTGRES_USER|Postgres user.| `postgres`
-|POSTGRES_PASSWORD|Postgres password.| -
-|POSTGRES_DATABASE|Application's database name.| gocommerce
-|DOCS_URL|An url to docs where users can find more information about the app's internal code errors.|`https://github.com/DiegoVictor/gocommerce#errors-reference`
 
 # Usage
 To start up the app run:
